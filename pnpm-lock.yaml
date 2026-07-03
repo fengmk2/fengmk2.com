@@ -21,8 +21,8 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2(react@19.2.7)
       '@void/react':
-        specifier: ^0.10.2
-        version: 0.10.2(@voidzero-dev/vite-plus-core@0.2.1(@types/node@25.9.3)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.21.0)(yaml@2.9.0))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(void@0.10.2(@voidzero-dev/vite-plus-core@0.2.1(@types/node@25.9.3)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.21.0)(yaml@2.9.0))(arktype@2.2.0)(kysely@0.28.16)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(solid-js@1.9.12)(svelte@5.55.4)(valibot@1.3.1)(vitest@4.1.9)(vue@3.5.32)(workerd@1.20260616.1)(zod@4.3.6))
+        specifier: ^0.10.4
+        version: 0.10.4(@voidzero-dev/vite-plus-core@0.2.1(@types/node@25.9.3)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.21.0)(yaml@2.9.0))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(void@0.10.4(@voidzero-dev/vite-plus-core@0.2.1(@types/node@25.9.3)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.21.0)(yaml@2.9.0))(arktype@2.2.0)(kysely@0.28.16)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(solid-js@1.9.12)(svelte@5.55.4)(valibot@1.3.1)(vitest@4.1.9)(vue@3.5.32)(workerd@1.20260616.1)(zod@4.3.6))
       react:
         specifier: ^19.2.7
         version: 19.2.7
@@ -33,11 +33,11 @@ importers:
         specifier: ^6.1.2
         version: 6.1.2(react@19.2.7)
       void:
-        specifier: ^0.10.2
-        version: 0.10.2(@voidzero-dev/vite-plus-core@0.2.1(@types/node@25.9.3)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.21.0)(yaml@2.9.0))(arktype@2.2.0)(kysely@0.28.16)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(solid-js@1.9.12)(svelte@5.55.4)(valibot@1.3.1)(vitest@4.1.9)(vue@3.5.32)(workerd@1.20260616.1)(zod@4.3.6)
+        specifier: ^0.10.4
+        version: 0.10.4(@voidzero-dev/vite-plus-core@0.2.1(@types/node@25.9.3)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.21.0)(yaml@2.9.0))(arktype@2.2.0)(kysely@0.28.16)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(solid-js@1.9.12)(svelte@5.55.4)(valibot@1.3.1)(vitest@4.1.9)(vue@3.5.32)(workerd@1.20260616.1)(zod@4.3.6)
       void-blog:
         specifier: ^0.1.0
-        version: 0.1.0(d1311e234a437b659fb99769133cd0b9)
+        version: 0.1.0(7188de909ae0b173a13f1d88659a6aee)
     devDependencies:
       '@mdx-js/rollup':
         specifier: ^3.1.1
@@ -1973,13 +1973,13 @@ packages:
   '@vitest/utils@4.1.9':
     resolution: {integrity: sha512-A51o8ymO5PpqlWNnBP9ZHPXDIpuMtTLlGSjN7la4US+LJzoUMyhwjA5QXlm39JexgwHKW4Xjs8Z2d3dLCXOeuA==}
 
-  '@void/react@0.10.2':
-    resolution: {integrity: sha512-4/UWoDgyxnTu4nnMcCpMC/SG3WeWswIyI1d7ivYxbzJHNRU7/5x8BpFsICtq9C0MZ8NnR0L9GidoVQZVbMi49A==}
+  '@void/react@0.10.4':
+    resolution: {integrity: sha512-aQkgrjM5L+i8h2pEwLZuKZtdr6cotlT+4762tSdOt3iETOatYP+OWBPpz/p97bL0xf/F3kSW4jSUna2jEx1Czg==}
     peerDependencies:
       react: ^19.0.0
       react-dom: ^19.0.0
       vite: ^8.0.0
-      void: 0.10.2
+      void: 0.10.4
 
   '@voidzero-dev/vite-plus-core@0.2.1':
     resolution: {integrity: sha512-iWdtOlLezgYcDqIzxZx1yOUhY93vUB+ob+mRYBNr7/3Hf80uRyTQbqVD1WtsYaANbzeUi81SQ1ZoUraXHO+u8A==}
@@ -3636,11 +3636,11 @@ packages:
       vite: ^8.0.8
       void: '>=0.5.0'
 
-  void@0.10.2:
-    resolution: {integrity: sha512-Lem2fEUm6Co6socToPXGiPDB35xNWtmkEZr3a9zy4rv4MEQtp/EnMOIPJ6TABdmDH9MRTnAN4v3g9pPmD7fhrg==}
+  void@0.10.4:
+    resolution: {integrity: sha512-Ab5KgB0ERcZINe9oFfxNXBN9tdyvM5sYaCq5BGOHgAzB0/SwTaxYQRdoQgy8CoCK5z2bAJfoFxZVVip/hDF/iw==}
     hasBin: true
     peerDependencies:
-      '@void/md': 0.10.2
+      '@void/md': 0.10.4
       arktype: '>=2.0.0'
       valibot: '>=1.0.0-beta.7'
       vite: ^8.0.0
@@ -5004,13 +5004,13 @@ snapshots:
       convert-source-map: 2.0.0
       tinyrainbow: 3.1.0
 
-  '@void/react@0.10.2(@voidzero-dev/vite-plus-core@0.2.1(@types/node@25.9.3)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.21.0)(yaml@2.9.0))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(void@0.10.2(@voidzero-dev/vite-plus-core@0.2.1(@types/node@25.9.3)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.21.0)(yaml@2.9.0))(arktype@2.2.0)(kysely@0.28.16)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(solid-js@1.9.12)(svelte@5.55.4)(valibot@1.3.1)(vitest@4.1.9)(vue@3.5.32)(workerd@1.20260616.1)(zod@4.3.6))':
+  '@void/react@0.10.4(@voidzero-dev/vite-plus-core@0.2.1(@types/node@25.9.3)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.21.0)(yaml@2.9.0))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(void@0.10.4(@voidzero-dev/vite-plus-core@0.2.1(@types/node@25.9.3)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.21.0)(yaml@2.9.0))(arktype@2.2.0)(kysely@0.28.16)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(solid-js@1.9.12)(svelte@5.55.4)(valibot@1.3.1)(vitest@4.1.9)(vue@3.5.32)(workerd@1.20260616.1)(zod@4.3.6))':
     dependencies:
       '@vitejs/plugin-react': 6.0.2(@voidzero-dev/vite-plus-core@0.2.1(@types/node@25.9.3)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.21.0)(yaml@2.9.0))
       react: 19.2.7
       react-dom: 19.2.7(react@19.2.7)
       vite: '@voidzero-dev/vite-plus-core@0.2.1(@types/node@25.9.3)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.21.0)(yaml@2.9.0)'
-      void: 0.10.2(@voidzero-dev/vite-plus-core@0.2.1(@types/node@25.9.3)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.21.0)(yaml@2.9.0))(arktype@2.2.0)(kysely@0.28.16)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(solid-js@1.9.12)(svelte@5.55.4)(valibot@1.3.1)(vitest@4.1.9)(vue@3.5.32)(workerd@1.20260616.1)(zod@4.3.6)
+      void: 0.10.4(@voidzero-dev/vite-plus-core@0.2.1(@types/node@25.9.3)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.21.0)(yaml@2.9.0))(arktype@2.2.0)(kysely@0.28.16)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(solid-js@1.9.12)(svelte@5.55.4)(valibot@1.3.1)(vitest@4.1.9)(vue@3.5.32)(workerd@1.20260616.1)(zod@4.3.6)
     transitivePeerDependencies:
       - '@rolldown/plugin-babel'
       - babel-plugin-react-compiler
@@ -7078,7 +7078,7 @@ snapshots:
     transitivePeerDependencies:
       - msw
 
-  void-blog@0.1.0(d1311e234a437b659fb99769133cd0b9):
+  void-blog@0.1.0(7188de909ae0b173a13f1d88659a6aee):
     dependencies:
       '@mdx-js/rollup': 3.1.1(rollup@4.62.0)
       '@nkzw/core': 1.3.1
@@ -7088,7 +7088,7 @@ snapshots:
       '@shikijs/transformers': 4.2.0
       '@stefanprobst/rehype-extract-toc': 3.0.0
       '@tailwindcss/vite': 4.3.1(@voidzero-dev/vite-plus-core@0.2.1(@types/node@25.9.3)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.21.0)(yaml@2.9.0))
-      '@void/react': 0.10.2(@voidzero-dev/vite-plus-core@0.2.1(@types/node@25.9.3)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.21.0)(yaml@2.9.0))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(void@0.10.2(@voidzero-dev/vite-plus-core@0.2.1(@types/node@25.9.3)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.21.0)(yaml@2.9.0))(arktype@2.2.0)(kysely@0.28.16)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(solid-js@1.9.12)(svelte@5.55.4)(valibot@1.3.1)(vitest@4.1.9)(vue@3.5.32)(workerd@1.20260616.1)(zod@4.3.6))
+      '@void/react': 0.10.4(@voidzero-dev/vite-plus-core@0.2.1(@types/node@25.9.3)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.21.0)(yaml@2.9.0))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(void@0.10.4(@voidzero-dev/vite-plus-core@0.2.1(@types/node@25.9.3)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.21.0)(yaml@2.9.0))(arktype@2.2.0)(kysely@0.28.16)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(solid-js@1.9.12)(svelte@5.55.4)(valibot@1.3.1)(vitest@4.1.9)(vue@3.5.32)(workerd@1.20260616.1)(zod@4.3.6))
       clsx: 2.1.1
       date-fns: 4.4.0
       gray-matter: 4.0.3
@@ -7106,13 +7106,13 @@ snapshots:
       tippy.js: 6.3.7
       unist-util-visit: 5.1.0
       vite: '@voidzero-dev/vite-plus-core@0.2.1(@types/node@25.9.3)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.21.0)(yaml@2.9.0)'
-      void: 0.10.2(@voidzero-dev/vite-plus-core@0.2.1(@types/node@25.9.3)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.21.0)(yaml@2.9.0))(arktype@2.2.0)(kysely@0.28.16)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(solid-js@1.9.12)(svelte@5.55.4)(valibot@1.3.1)(vitest@4.1.9)(vue@3.5.32)(workerd@1.20260616.1)(zod@4.3.6)
+      void: 0.10.4(@voidzero-dev/vite-plus-core@0.2.1(@types/node@25.9.3)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.21.0)(yaml@2.9.0))(arktype@2.2.0)(kysely@0.28.16)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(solid-js@1.9.12)(svelte@5.55.4)(valibot@1.3.1)(vitest@4.1.9)(vue@3.5.32)(workerd@1.20260616.1)(zod@4.3.6)
     transitivePeerDependencies:
       - nativewind
       - react-native
       - supports-color
 
-  void@0.10.2(@voidzero-dev/vite-plus-core@0.2.1(@types/node@25.9.3)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.21.0)(yaml@2.9.0))(arktype@2.2.0)(kysely@0.28.16)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(solid-js@1.9.12)(svelte@5.55.4)(valibot@1.3.1)(vitest@4.1.9)(vue@3.5.32)(workerd@1.20260616.1)(zod@4.3.6):
+  void@0.10.4(@voidzero-dev/vite-plus-core@0.2.1(@types/node@25.9.3)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.21.0)(yaml@2.9.0))(arktype@2.2.0)(kysely@0.28.16)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(solid-js@1.9.12)(svelte@5.55.4)(valibot@1.3.1)(vitest@4.1.9)(vue@3.5.32)(workerd@1.20260616.1)(zod@4.3.6):
     dependencies:
       '@cloudflare/sandbox': 0.10.3
       '@cloudflare/vite-plugin': 1.41.0(@voidzero-dev/vite-plus-core@0.2.1(@types/node@25.9.3)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.21.0)(yaml@2.9.0))(workerd@1.20260616.1)(wrangler@4.101.0(@cloudflare/workers-types@4.20260617.1))

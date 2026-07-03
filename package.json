@@ -17,11 +17,11 @@
   },
   "dependencies": {
     "@nkzw/stack": "^2.3.2",
-    "@void/react": "^0.10.2",
+    "@void/react": "^0.10.4",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "react-error-boundary": "^6.1.2",
-    "void": "^0.10.2",
+    "void": "^0.10.4",
     "void-blog": "^0.1.0"
   },
   "devDependencies": {
