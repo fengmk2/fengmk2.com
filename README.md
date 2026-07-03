@@ -9,7 +9,7 @@ Personal site and blog at [fengmk2.com](https://fengmk2.com), built with [Vite+]
 Work happens on the `dev` branch. `master` is production and only advances through the automated promotion below, so do not commit to it directly.
 
 ```bash
-pnpm install
+vp install
 vp dev        # local dev server
 vp check      # format, lint, type check
 vp run build  # production build
