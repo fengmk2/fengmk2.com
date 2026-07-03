@@ -30,13 +30,19 @@ jobs:
           path: node_modules/.vite/task-cache
           key: vite-task-${{ runner.os }}-${{ runner.arch }}-${{ github.run_id }}-${{ github.run_attempt }}
           restore-keys: vite-task-${{ runner.os }}-${{ runner.arch }}-
-      # Build first (via the cacheable ci-build task): it generates
+      # Build first (via the cacheable build task): it generates
       # .void/routes.d.ts and queues.d.ts, which the generated
       # .void/tsconfig.json references. Since vite-plus 0.2.2, vp check fails
       # on the invalid tsconfig when those files are missing (vp config alone
       # does not create them on a fresh checkout). A cache replay restores
       # them from the archived task outputs.
-      - run: vp run ci-build
+      #
+      # env -i: the build enumerates process.env (void env filtering), and
+      # vite-task fingerprints that bulk query against the unfiltered parent
+      # environment, so per-run variables like ACTIONS_ORCHESTRATION_ID would
+      # otherwise invalidate the cache on every run. A sanitized, stable
+      # environment makes the fingerprint reproducible.
+      - run: env -i PATH="$PATH" HOME="$HOME" vp run build
       - run: vp check
       - run: vp test run
       - uses: actions/cache/save@v6
