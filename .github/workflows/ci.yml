@@ -43,7 +43,11 @@ jobs:
       # otherwise invalidate the cache on every run. A sanitized, stable
       # environment makes the fingerprint reproducible.
       - run: env -i PATH="$PATH" HOME="$HOME" vp run build
-      - run: vp check
+      # Cached check task. Must run after the direct `vp run build` above:
+      # build entries stored by a dependency execution do not archive outputs,
+      # so the direct build step is what guarantees .void type declarations
+      # exist before type-aware checking.
+      - run: env -i PATH="$PATH" HOME="$HOME" vp run check
       - run: vp test run
       - uses: actions/cache/save@v6
         if: always()

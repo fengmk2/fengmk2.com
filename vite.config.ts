@@ -90,6 +90,39 @@ function buildTime() {
 export default defineConfig({
   run: {
     tasks: {
+      // Cacheable vp check. Type-aware linting reads the .void type
+      // declarations that the build generates, hence dependsOn. Inputs cover
+      // everything vp check formats, lints, or type-checks; generated files
+      // are excluded (their sources are tracked), and .void/dev-trigger-token
+      // is a random per-checkout value that would poison the fingerprint.
+      check: {
+        command: "vp check",
+        dependsOn: ["build"],
+        env: [],
+        input: [
+          ".github/**",
+          ".void/**",
+          "!.void/dev-trigger-token",
+          "AGENTS.md",
+          "CLAUDE.md",
+          "README.md",
+          "blog.config.ts",
+          "env.d.ts",
+          "middleware/**",
+          "package.json",
+          "pages/**",
+          "!pages/posts/**",
+          "pnpm-lock.yaml",
+          "pnpm-workspace.yaml",
+          "posts/**",
+          "src/**",
+          "!src/redirects.generated.ts",
+          "tsconfig.json",
+          "vite.config.ts",
+          "vitest.config.ts",
+          "void.json",
+        ],
+      },
       // Cacheable build task for CI (the test job restores
       // node_modules/.vite/task-cache and runs `vp run build`). There is
       // deliberately no `build` script in package.json: a task may not shadow
