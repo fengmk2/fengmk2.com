@@ -39,3 +39,4 @@ Notes:
 - Void OIDC only accepts push events as deploy triggers, so PRs cannot deploy previews; staging verification happens after merging to `dev`
 - Each deployed page hides a build stamp in the homepage footer: select the page (Cmd+A) to reveal the deployed commit and build time
 - Inspect deployments with `void project status fengmk2` or `void project status fengmk2-staging`, runtime logs with `void project logs`
+- The CI test job caches vite-task results (`node_modules/.vite/task-cache`) for the `build` and `check` tasks via GitHub Actions cache, so commits that do not touch their inputs replay in under a second; deploys build fresh through `void deploy` and never use this cache

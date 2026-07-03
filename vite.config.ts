@@ -88,6 +88,80 @@ function buildTime() {
 }
 
 export default defineConfig({
+  run: {
+    tasks: {
+      // Cacheable vp check. Type-aware linting reads the .void type
+      // declarations that the build generates, hence dependsOn. Inputs cover
+      // everything vp check formats, lints, or type-checks; generated files
+      // are excluded (their sources are tracked), and .void/dev-trigger-token
+      // is a random per-checkout value that would poison the fingerprint.
+      check: {
+        command: "vp check",
+        dependsOn: ["build"],
+        env: [],
+        input: [
+          ".github/**",
+          ".void/**",
+          "!.void/dev-trigger-token",
+          "AGENTS.md",
+          "CLAUDE.md",
+          "README.md",
+          "blog.config.ts",
+          "env.d.ts",
+          "middleware/**",
+          "package.json",
+          "pages/**",
+          "!pages/posts/**",
+          "pnpm-lock.yaml",
+          "pnpm-workspace.yaml",
+          "posts/**",
+          "src/**",
+          "!src/redirects.generated.ts",
+          "tsconfig.json",
+          "vite.config.ts",
+          "vitest.config.ts",
+          "void.json",
+        ],
+      },
+      // Cacheable build task for CI (the test job restores
+      // node_modules/.vite/task-cache and runs `vp run build`). There is
+      // deliberately no `build` script in package.json: a task may not shadow
+      // a script of the same name, and void deploy falls back to the
+      // equivalent `vite build` when the script is absent, so deploy builds
+      // never use this cache and always get a fresh commit stamp.
+      build: {
+        command: "vp build",
+        // No env fingerprinting: the build enumerates process.env (void env
+        // filtering), which would otherwise fingerprint per-run CI variables
+        // like ACTIONS_ORCHESTRATION_ID and invalidate every run.
+        env: [],
+        // Explicit inputs (no auto tracking): fspy-recorded directory entries
+        // for generated dirs (.void) invalidate on every fresh checkout even
+        // when excluded. Dependency changes are covered by pnpm-lock.yaml.
+        input: [
+          "blog.config.ts",
+          "env.d.ts",
+          "middleware/**",
+          "package.json",
+          "pages/**",
+          "!pages/posts/**",
+          "pnpm-lock.yaml",
+          "pnpm-workspace.yaml",
+          "posts/**",
+          "public/**",
+          "!public/feed.xml",
+          "!public/og/**",
+          "!public/posts/**",
+          "!public/sitemap.xml",
+          "src/**",
+          "!src/redirects.generated.ts",
+          "tsconfig.json",
+          "vite.config.ts",
+          "void.json",
+        ],
+      },
+    },
+  },
   define: {
     __BUILD_COMMIT__: JSON.stringify(buildCommit()),
     __BUILD_TIME__: JSON.stringify(buildTime()),

@@ -22,13 +22,38 @@ jobs:
       - uses: voidzero-dev/setup-vp@v1
         with:
           cache: true
-      # Build first: it generates .void/routes.d.ts and queues.d.ts, which the
-      # generated .void/tsconfig.json references. Since vite-plus 0.2.2,
-      # vp check fails on the invalid tsconfig when those files are missing
-      # (vp config alone does not create them on a fresh checkout).
-      - run: vp run build
-      - run: vp check
+      # Restore the vite-task result cache so unchanged builds replay instead
+      # of rebuilding. The primary key is unique per run (entries are
+      # immutable); restore-keys falls back to the newest compatible entry.
+      - uses: actions/cache/restore@v6
+        with:
+          path: node_modules/.vite/task-cache
+          key: vite-task-${{ runner.os }}-${{ runner.arch }}-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: vite-task-${{ runner.os }}-${{ runner.arch }}-
+      # Build first (via the cacheable build task): it generates
+      # .void/routes.d.ts and queues.d.ts, which the generated
+      # .void/tsconfig.json references. Since vite-plus 0.2.2, vp check fails
+      # on the invalid tsconfig when those files are missing (vp config alone
+      # does not create them on a fresh checkout). A cache replay restores
+      # them from the archived task outputs.
+      #
+      # env -i: the build enumerates process.env (void env filtering), and
+      # vite-task fingerprints that bulk query against the unfiltered parent
+      # environment, so per-run variables like ACTIONS_ORCHESTRATION_ID would
+      # otherwise invalidate the cache on every run. A sanitized, stable
+      # environment makes the fingerprint reproducible.
+      - run: env -i PATH="$PATH" HOME="$HOME" vp run build
+      # Cached check task. Must run after the direct `vp run build` above:
+      # build entries stored by a dependency execution do not archive outputs,
+      # so the direct build step is what guarantees .void type declarations
+      # exist before type-aware checking.
+      - run: env -i PATH="$PATH" HOME="$HOME" vp run check
       - run: vp test run
+      - uses: actions/cache/save@v6
+        if: always()
+        with:
+          path: node_modules/.vite/task-cache
+          key: vite-task-${{ runner.os }}-${{ runner.arch }}-${{ github.run_id }}-${{ github.run_attempt }}
 
   staging-deploy:
     needs: test
