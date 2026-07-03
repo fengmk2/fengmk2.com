@@ -151,6 +151,7 @@ export default defineConfig({
           "public/**",
           "!public/feed.xml",
           "!public/og/**",
+          "!public/posts/**",
           "!public/sitemap.xml",
           "src/**",
           "!src/redirects.generated.ts",
