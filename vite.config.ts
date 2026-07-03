@@ -88,6 +88,44 @@ function buildTime() {
 }
 
 export default defineConfig({
+  run: {
+    tasks: {
+      // Cacheable build task for CI (the test job restores
+      // node_modules/.vite/task-cache and runs `vp run ci-build`). A task may
+      // not shadow the package.json `build` script, hence the distinct name.
+      // Auto input tracking with excludes for paths the build itself writes
+      // (og images, wrangler config), which would otherwise block cache
+      // storage, and for .git so commits that do not touch build inputs can
+      // replay. Deploy builds go through `void deploy` and never use this
+      // cache, so deployed bundles always get a fresh commit stamp.
+      "ci-build": {
+        command: "vp build",
+        // Explicit inputs (no auto tracking): fspy-recorded directory entries
+        // for generated dirs (.void) invalidate on every fresh checkout even
+        // when excluded. Dependency changes are covered by pnpm-lock.yaml.
+        input: [
+          "blog.config.ts",
+          "env.d.ts",
+          "middleware/**",
+          "package.json",
+          "pages/**",
+          "!pages/posts/**",
+          "pnpm-lock.yaml",
+          "pnpm-workspace.yaml",
+          "posts/**",
+          "public/**",
+          "!public/feed.xml",
+          "!public/og/**",
+          "!public/sitemap.xml",
+          "src/**",
+          "!src/redirects.generated.ts",
+          "tsconfig.json",
+          "vite.config.ts",
+          "void.json",
+        ],
+      },
+    },
+  },
   define: {
     __BUILD_COMMIT__: JSON.stringify(buildCommit()),
     __BUILD_TIME__: JSON.stringify(buildTime()),
