@@ -104,6 +104,11 @@ export default defineConfig({
   optimizeDeps: {
     include: optimizedDeps,
   },
+  // Lets `vp preview` accept a spoofed Host header to test the canonical-host
+  // redirect middleware locally.
+  preview: {
+    allowedHosts: ["fengmk2.void.app"],
+  },
   plugins: [
     voidBlog(blogConfig, { routes: { post: "src/blog/PostRoute.tsx" } }),
     ...voidPlugin(),
