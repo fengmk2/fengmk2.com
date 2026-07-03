@@ -1,13 +1,18 @@
 name: CI
 on:
   push:
-    branches: [master]
+    branches: [master, dev]
   pull_request:
-    branches: [master]
+    branches: [master, dev]
+
+# Latest push wins per branch: a newer commit cancels an in-flight run so an
+# older staging deploy can never overtake a newer one.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: read
-  pull-requests: write
 
 jobs:
   test:
@@ -22,8 +27,13 @@ jobs:
 
   staging-deploy:
     needs: test
-    if: github.event_name == 'pull_request'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/dev'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      # Lets the CLI mint a GitHub OIDC token and exchange it for a
+      # short-lived project-scoped deploy token; no VOID_TOKEN secret needed.
+      id-token: write
     steps:
       - uses: actions/checkout@v6
       - uses: voidzero-dev/setup-vp@v1
@@ -31,7 +41,25 @@ jobs:
           cache: true
       - run: vpx void deploy
         env:
-          VOID_TOKEN: ${{ secrets.VOID_TOKEN }}
+          VOID_PROJECT: fengmk2-staging
+
+  # PRs deploy to staging too, for pre-merge verification. Note both this and
+  # the dev branch deploy target fengmk2-staging, so whichever ran last wins.
+  pr-staging-deploy:
+    needs: test
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v6
+      - uses: voidzero-dev/setup-vp@v1
+        with:
+          cache: true
+      - run: vpx void deploy
+        env:
           VOID_PROJECT: fengmk2-staging
       - name: Comment on PR
         uses: actions/github-script@v9
@@ -60,3 +88,23 @@ jobs:
                 body,
               });
             }
+
+  # Staging deploy is live, so promote the exact same commit to production:
+  # fast-forward master and let the Void GitHub App deploy it. --ff-only means
+  # a diverged master (e.g. a direct commit) fails loudly instead of merging.
+  promote:
+    needs: staging-deploy
+    if: github.event_name == 'push' && github.ref == 'refs/heads/dev'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: master
+          fetch-depth: 0
+      - name: Fast-forward master to the staged commit
+        run: |
+          git fetch origin ${{ github.sha }}
+          git merge --ff-only ${{ github.sha }}
+          git push origin master
