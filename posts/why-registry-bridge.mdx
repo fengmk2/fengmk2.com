@@ -1,0 +1,109 @@
+---
+title: "Why We Need a Registry Bridge"
+date: "2026-07-04T00:00:00+08:00"
+description: "A short note on the pkg.pr.new registry bridge and why preview builds need npm registry semantics."
+published: true
+---
+
+# Why We Need a Registry Bridge
+
+The [pkg-pr-registry-bridge](https://github.com/voidzero-dev/pkg-pr-registry-bridge) is an npm-compatible registry proxy for `pkg.pr.new` preview builds.
+
+It lets package managers install selected preview builds as normal registry versions, while regular dependencies still come from npm.
+
+`pkg.pr.new` is great for preview tarballs. It lets us try a package built from a PR or commit without publishing a real npm release.
+
+But package managers do not only download tarballs. For normal installs, they first ask a registry for package metadata.
+
+## The Problem
+
+A package manager expects a registry to answer:
+
+- `GET /<package>`: list versions, dist-tags, tarball URLs, and integrity.
+- `GET /<tarball>`: return the exact package bytes.
+
+`pkg.pr.new` gives us direct tarball URLs, but not npm packuments.
+
+That breaks common workflows like aliases and overrides:
+
+```json
+{
+  "overrides": {
+    "vite": "npm:@voidzero-dev/vite-plus-core@0.0.0-commit.<sha>"
+  }
+}
+```
+
+The package manager needs `@voidzero-dev/vite-plus-core` to look like a real registry package version.
+
+## Why Not Use Tarball URLs Directly
+
+A direct `pkg.pr.new` URL looks simpler, but it is fragile.
+
+- Bun has an [override bug](https://github.com/oven-sh/bun/issues/33192): it may drop an HTTP tarball when the dependency key is `vite` but the tarball's internal `name` is `@voidzero-dev/vite-plus-core`.
+- pnpm treats direct tarball URLs as exotic sources. With [`blockExoticSubdeps`](https://pnpm.io/settings#blockexoticsubdeps), transitive URL usage may require `blockExoticSubdeps: false`.
+- Lockfiles become cleaner when previews are registry versions, not raw URLs.
+
+The bridge turns the preview into normal registry metadata, so package managers can use their standard resolver path.
+
+## What the Bridge Solves
+
+The bridge adds the missing registry layer.
+
+It lets preview builds behave like normal npm versions while keeping normal packages on npm.
+
+- Preview versions are explicit: `0.0.0-commit.<sha>`.
+- Commit versions are immutable and safe for lockfiles.
+- PR convenience can use a moving `pr-<n>` dist-tag.
+- Non-preview packages redirect to `registry.npmjs.org`.
+
+## How It Works
+
+The bridge is an npm-compatible registry proxy.
+
+```text
+CI
+  build package
+  rewrite package.json
+  hash exact bytes
+  upload metadata + tarball
+        |
+        v
+R2 tarball store
+        ^
+        |
+bun / npm / pnpm install
+        |
+        v
+Registry bridge
+  |-- preview package -> inject preview versions into packument
+  |-- preview tarball -> stream stored bytes from R2
+  `-- normal package  -> redirect to registry.npmjs.org
+```
+
+For allowlisted packages:
+
+1. It fetches the real npm packument.
+2. It injects preview versions for registered commits.
+3. It returns metadata with tarball URLs and integrity.
+
+For preview tarballs:
+
+1. CI builds and rewrites the package.
+2. CI computes integrity for the exact bytes.
+3. CI uploads the tarball and metadata.
+4. The Worker streams the stored tarball back to the package manager.
+
+For everything else, the bridge redirects to npm.
+
+## The Result
+
+We can install preview builds with normal package-manager behavior:
+
+- aliases work;
+- overrides work;
+- lockfiles stay reproducible;
+- large binary packages are served without Worker rebuild cost;
+- npm remains the source for all regular dependencies.
+
+The bridge is small because it only does one job: make preview builds speak the npm registry protocol.

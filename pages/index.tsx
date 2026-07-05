@@ -171,6 +171,9 @@ export default function HomePage() {
               2026
               <ul>
                 <li>
+                  <a href="/posts/why-registry-bridge">Why We Need a Registry Bridge</a>
+                </li>
+                <li>
                   <a href="/blog/2026/blog-qwin-windows-testing-on-macos">
                     Windows CLI Testing from macOS: Cross-Compilation + QEMU VM
                   </a>
