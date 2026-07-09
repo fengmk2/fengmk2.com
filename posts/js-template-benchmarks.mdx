@@ -112,7 +112,7 @@ use: 1.167 sec, rps: 85689.8029134533
 
 - jsTenjin是使用eval来解析的，而nTenjin是使用 new Function 来解析的(速度差别之一)。
 - jsTenjin是使用Array.push来构造字符串的，而nTenjin是使用 String += str 来构造字符串的(速度差别之二)。
-- nTenjin中变量必须由it来指定，例如#{param}要修改为#{it.param},其他和jsTenjin完全一致。
+- nTenjin中变量必须由it来指定，例如`#{param}`要修改为`#{it.param}`,其他和jsTenjin完全一致。
 
 ## 模板引擎优化步骤
 
