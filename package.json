@@ -16,14 +16,15 @@
   },
   "dependencies": {
     "@nkzw/stack": "^2.3.2",
-    "@void/react": "^0.10.4",
+    "@void/react": "^0.10.8",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "react-error-boundary": "^6.1.2",
-    "void": "^0.10.4",
+    "void": "^0.10.8",
     "void-blog": "^0.1.0"
   },
   "devDependencies": {
+    "@mdx-js/mdx": "^3.1.1",
     "@mdx-js/rollup": "^3.1.1",
     "@tailwindcss/vite": "^4.3.1",
     "@types/node": "^25.9.3",

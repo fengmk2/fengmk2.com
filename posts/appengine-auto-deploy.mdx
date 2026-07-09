@@ -13,51 +13,57 @@ published: true
 
 ## deploy.py
 
-    #!/usr/bin/env python
-    # -*- coding: utf-8 -*-
+```python
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
-    # 将 {project_name} 替换成你的项目目录
-    # 将 {password} 替换成你的密码文件
-    # 将 {email} 替换成你的email
+# 将 {project_name} 替换成你的项目目录
+# 将 {password} 替换成你的密码文件
+# 将 {email} 替换成你的email
 
-    import sys
-    import os
-    import urllib2
+import sys
+import os
+import urllib2
 
 
-    def deploy(no):
-        tpl = open('app.yaml', 'rb')
+def deploy(no):
+    tpl = open('app.yaml', 'rb')
+    try:
+        tpl_data = tpl.read().replace('{{no}}', str(no))
+        to_f = open('./source/app.yaml', 'wb')
         try:
-            tpl_data = tpl.read().replace('{{no}}', str(no))
-            to_f = open('./source/app.yaml', 'wb')
-            try:
-                to_f.write(tpl_data)
-            finally:
-                to_f.close()
+            to_f.write(tpl_data)
         finally:
-            tpl.close()
-        os.system('appcfg.py --passin --email={email} update {project_name} < {password}')
+            to_f.close()
+    finally:
+        tpl.close()
+    os.system('appcfg.py --passin --email={email} update {project_name} < {password}')
 
-    if __name__ == '__main__':
-        start, end = int(sys.argv[1]), int(sys.argv[2]) + 1
-        for i in range(start, end):
-            deploy(i)
+if __name__ == '__main__':
+    start, end = int(sys.argv[1]), int(sys.argv[2]) + 1
+    for i in range(start, end):
+        deploy(i)
+```
 
 ## app.yaml
 
-    application: demo{{no}}
-    version: 1
-    runtime: python
-    api_version: 1
+```yaml
+application: demo{{no}}
+version: 1
+runtime: python
+api_version: 1
 
-    handlers:
-    - url: .*
-      script: main.py
+handlers:
+  - url: .*
+    script: main.py
+```
 
 ## 运行
 
-    # 慢慢等吧，^_^
-    python deploy.py 0, 10000
+```bash
+# 慢慢等吧，^_^
+python deploy.py 0, 10000
+```
 
 ## 有爱
 
